@@ -69,14 +69,14 @@ class Processor:
                     log.info(' -- -- Ignoring {0} stack because it\'s not active'.format(stack_name))
                     continue
 
-                if stack_name == 'load-balancer':
+                if stack_name == 'utility':
                     loadbalancer_service = self.get_utility_loadbalancer(stack)
 
 
                 depot_services = self.get_stack_services(stack)
 
                 for service in depot_services:
-                    log.info(' -- -- Adding {0} registrt to stack '.format(stack_name))
+                    log.info(' -- -- Adding {0} to stack '.format(stack_name))
                     port = service['launchConfig'].get('labels',{}).get('lb.port', '80')
                     domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'zerofucks.co.uk')
                     loadbalancer_entries.append({
