@@ -78,6 +78,7 @@ class Processor:
                 for service in depot_services:
 
                     port = service['launchConfig'].get('labels',{}).get('depot.lb.port', '80')
+                    domain = service['launchConfig'].get('labels',{}).get('depot.lb.domain', 'zerofucks.co.uk')
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
