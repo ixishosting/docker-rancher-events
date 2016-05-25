@@ -76,13 +76,13 @@ class Processor:
                 depot_services = self.get_stack_services(stack)
 
                 for service in depot_services:
-
+                    log.info(' -- -- Adding {0} registrt to stack '.format(stack_name))
                     port = service['launchConfig'].get('labels',{}).get('lb.port', '80')
                     domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'zerofucks.co.uk')
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
-                            stack_name + '.' + self.domain + ':' + self.external_loadbalancer_http_port + '=' + port
+                            stack_name + '.' +  self.domain + ':' + self.external_loadbalancer_http_port + '=' + port
                         ]
                     })
 
