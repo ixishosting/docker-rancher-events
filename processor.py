@@ -77,8 +77,8 @@ class Processor:
 
                 for service in depot_services:
 
-                    port = service['launchConfig'].get('labels',{}).get('depot.lb.port', '80')
-                    domain = service['launchConfig'].get('labels',{}).get('depot.lb.domain', 'zerofucks.co.uk')
+                    port = service['launchConfig'].get('labels',{}).get('lb.port', '80')
+                    domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'zerofucks.co.uk')
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
@@ -138,7 +138,7 @@ class Processor:
         #filter out any services that do not have the depot.lb.link label
         for service_data in services_response['data']:
             if (service_data['type'] != 'service') and (service_data['type'] != 'externalService'): continue
-            link = service_data['launchConfig'].get('labels',{}).get('depot.lb.link', 'false')
+            link = service_data['launchConfig'].get('labels',{}).get('lb.link', 'false')
             if link == 'true':
                 depot_services.append(service_data)
 
