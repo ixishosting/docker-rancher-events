@@ -17,8 +17,8 @@ class Processor:
         self.access_key = os.getenv('CATTLE_ACCESS_KEY')
         self.secret_key = os.getenv('CATTLE_SECRET_KEY')
         self.domain = os.getenv('DOMAIN', 'zerofucks.co.uk')
-        self.external_loadbalancer_http_port = os.getenv('LOADBALANCER_HTTP_LISTEN_PORT', '80')
-        self.external_loadbalancer_https_port = os.getenv('LOADBALANCER_HTTPS_LISTEN_PORT', '443')
+        self.external_loadbalancer_http_port = os.getenv('LOADBALANCER_HTTP_LISTEN_PORT', '81')
+        self.external_loadbalancer_https_port = os.getenv('LOADBALANCER_HTTPS_LISTEN_PORT', '444')
 
 
     def start(self):
@@ -70,15 +70,18 @@ class Processor:
                     continue
 
                 if stack_name == 'utility':
+                    log.info(' -- -- Found {0} - lb stack '.format(stack_name))
                     loadbalancer_service = self.get_utility_loadbalancer(stack)
 
 
                 depot_services = self.get_stack_services(stack)
 
                 for service in depot_services:
-                    log.info(' -- -- Adding {0} to stack '.format(stack_name))
+                    log.info(' -- -- Adding {0} to lb '.format(stack_name))
                     port = service['launchConfig'].get('labels',{}).get('lb.port', '80')
+                    log.info(' -- -- Using port {0}'.format(port))
                     domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'zerofucks.co.uk')
+                    log.info(' -- -- Using domain {0}'.format(domain))
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
