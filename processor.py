@@ -85,7 +85,7 @@ class Processor:
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
-                            stack_name + '.' +  self.domain + ':' + self.external_loadbalancer_http_port + '=' + port
+                            stack_name + '.' +  domain + ':' + self.external_loadbalancer_http_port + '=' + port
                         ]
                     })
 
