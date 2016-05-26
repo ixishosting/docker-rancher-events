@@ -140,8 +140,10 @@ class Processor:
 
         #filter out any services that do not have the depot.lb.link label
         for service_data in services_response['data']:
+            log.info(' -- -- Service type: ' + service_data['type'])
             if (service_data['type'] != 'service') and (service_data['type'] != 'externalService'): continue
             link = service_data['launchConfig'].get('labels',{}).get('lb.link', 'false')
+            log.info(' -- -- Link status on this service: ' + link)
             if link == 'true':
                 log.info(' -- -- Found {0} - service to add '.format(stack_name))
                 depot_services.append(service_data)
