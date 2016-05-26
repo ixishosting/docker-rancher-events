@@ -143,6 +143,7 @@ class Processor:
             if (service_data['type'] != 'service') and (service_data['type'] != 'externalService'): continue
             link = service_data['launchConfig'].get('labels',{}).get('lb.link', 'false')
             if link == 'true':
+                log.info(' -- -- Found {0} - service to add '.format(stack_name))
                 depot_services.append(service_data)
 
         return depot_services
