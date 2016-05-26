@@ -145,7 +145,7 @@ class Processor:
             link = service_data['launchConfig'].get('labels',{}).get('lb.link', 'false')
             log.info(' -- -- Link status on this service: ' + link)
             if link == 'true':
-                log.info(' -- -- Found {0} - service to add '.format(stack_name))
+                log.info(' -- -- Found {0} - service to add '.stack['name'])
                 depot_services.append(service_data)
 
         return depot_services
