@@ -81,7 +81,7 @@ class Processor:
                     log.info(' -- -- Adding {0} to lb '.format(stack_name))
                     port = service['launchConfig'].get('labels',{}).get('lb.port', '80')
                     log.info(' -- -- Using port {0}'.format(port))
-                    domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'zerofucks.co.uk')
+                    domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'drophosting.co.uk')
                     log.info(' -- -- Using domain {0}'.format(domain))
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
