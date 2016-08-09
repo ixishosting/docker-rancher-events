@@ -97,7 +97,7 @@ class Processor:
             log.info(loadbalancer_entries)
             self.set_loadbalancer_links(loadbalancer_service, loadbalancer_entries)
             log.info('Finished processing')
-            set_loadbalancer_certs(loadbalancer_service)
+            self.set_loadbalancer_certs(loadbalancer_service)
 
     def set_loadbalancer_certs(self, loadbalancer_service):
         certs = ['1c10']
