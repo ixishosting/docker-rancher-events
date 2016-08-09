@@ -91,13 +91,7 @@ class Processor:
                             stack_name + '.' +  domain + ':' + self.external_loadbalancer_http_port + '=' + port
                         ]
                     })
-                    # https
-                    loadbalancer_entries.append({
-                        'serviceId': service['id'],
-                        'ports': [
-                            stack_name + '.' +  domain + ':' + self.external_loadbalancer_https_port + '=' + port
-                        ]
-                    })
+
 
 
             if loadbalancer_service is None:
