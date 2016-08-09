@@ -99,10 +99,27 @@ class Processor:
             log.info('Finished processing')
             self.set_loadbalancer_certs(loadbalancer_service)
 
-    def set_loadbalancer_certs(self, loadbalancer_service):
-        certs = ['1c10']
-        print loadbalancer_service
-        r = requests.put(loadbalancer_service,
+    def get_certificates(self):
+        certs = []
+
+        # get list of all available cert ids
+        r = requests.get(self.api_endpoint + '/certificate',
+                            auth=(self.access_key, self.secret_key),
+                            headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+                            )
+        r.raise_for_status()
+        certs_response = r.json()
+
+        log.info(' -- Finding all certs')
+        for cert in certs_response['data']:
+            certs.append(cert['id'])
+        
+        log.info(certs)
+        self.set_loadbalancer_certs(certs)
+
+    def set_loadbalancer_certs(self, loadbalancer_service, certs):
+        #certs = ['1c10']
+        r = requests.put(loadbalancer_service['links']['self'],
                          auth=(self.access_key, self.secret_key),
                          headers = {'Accept': 'application/json', 'Content-Type': 'application/json'},
                         json={"certificateIds":certs}
