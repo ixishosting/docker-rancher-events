@@ -100,7 +100,7 @@ class Processor:
             set_loadbalancer_certs(loadbalancer_service)
 
     def set_loadbalancer_certs(self, loadbalancer_service):
-        certs = [1c10]
+        certs = ['1c10']
         print loadbalancer_service
         r = requests.put(loadbalancer_service,
                          auth=(self.access_key, self.secret_key),
