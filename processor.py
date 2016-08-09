@@ -105,7 +105,7 @@ class Processor:
 
             log.info('Setting certs')
             certs = self.get_certificates
-            self.set_loadbalancer_certs(loadbalancer_service, certs)
+            #self.set_loadbalancer_certs(loadbalancer_service, certs)
 
     def get_certificates(self):
         certs = []
@@ -119,6 +119,7 @@ class Processor:
         certs_response = r.json()
 
         log.info(' -- Finding all certs')
+        log.info(certs_response)
         for cert in certs_response['data']:
             log.info(' -- -- Found {0} - cert ' + cert)
             log.info(cert['id'])
