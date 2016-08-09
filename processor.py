@@ -126,7 +126,9 @@ class Processor:
 
         log.info(' -- Finding all certs')
         for cert in certs_response['data']:
-            certs.append(cert['id'])
+            log.info(' -- -- Found {0} - cert ' + cert)
+            log.info(cert['id'])
+            certs.append(cert)
 
         log.info(certs)
 
