@@ -97,6 +97,18 @@ class Processor:
             log.info(loadbalancer_entries)
             self.set_loadbalancer_links(loadbalancer_service, loadbalancer_entries)
             log.info('Finished processing')
+            set_loadbalancer_certs(loadbalancer_service)
+
+    def set_loadbalancer_certs(self, loadbalancer_service):
+        certs = [1c10]
+        print loadbalancer_service
+        r = requests.put(loadbalancer_service,
+                         auth=(self.access_key, self.secret_key),
+                         headers = {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                        json={"certificateIds":certs}
+                         )
+        r.raise_for_status()
+        log.info(r.json())
 
     def set_loadbalancer_links(self, loadbalancer_service, loadbalancer_entries):
 
