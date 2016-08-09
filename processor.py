@@ -83,12 +83,22 @@ class Processor:
                     log.info(' -- -- Using port {0}'.format(port))
                     domain = service['launchConfig'].get('labels',{}).get('lb.domain', 'drophosting.co.uk')
                     log.info(' -- -- Using domain {0}'.format(domain))
+                    
+                    # http
                     loadbalancer_entries.append({
                         'serviceId': service['id'],
                         'ports': [
                             stack_name + '.' +  domain + ':' + self.external_loadbalancer_http_port + '=' + port
                         ]
                     })
+                    # https
+                    loadbalancer_entries.append({
+                        'serviceId': service['id'],
+                        'ports': [
+                            stack_name + '.' +  domain + ':' + self.external_loadbalancer_https_port + '=' + port
+                        ]
+                    })
+
 
             if loadbalancer_service is None:
                 raise Exception('Could not find the load-balancer stack external load balancer. This should never happen')
