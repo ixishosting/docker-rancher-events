@@ -97,7 +97,11 @@ class Processor:
             log.info(loadbalancer_entries)
             self.set_loadbalancer_links(loadbalancer_service, loadbalancer_entries)
             log.info('Finished processing')
-            self.set_loadbalancer_certs(loadbalancer_service)
+            self.get_utility_loadbalancer
+
+            log.info('Setting certs')
+            certs = self.get_certificates
+            self.set_loadbalancer_certs(loadbalancer_service, certs)
 
     def get_certificates(self):
         certs = []
@@ -113,9 +117,10 @@ class Processor:
         log.info(' -- Finding all certs')
         for cert in certs_response['data']:
             certs.append(cert['id'])
-        
+
         log.info(certs)
-        self.set_loadbalancer_certs(certs)
+
+        return certs
 
     def set_loadbalancer_certs(self, loadbalancer_service, certs):
         #certs = ['1c10']
