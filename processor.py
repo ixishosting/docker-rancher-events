@@ -63,7 +63,7 @@ class Processor:
             log.info(' -- Finding all Stacks')
             for stack in stacks_response['data']:
                 stack_name = stack['name']
-		        stack_name  = stack_name.replace('-', '.')
+                stack_name  = stack_name.replace('-', '.')
 
                 # make sure the stack/environment is active
                 if stack['state'] != 'active':
