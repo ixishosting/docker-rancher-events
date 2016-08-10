@@ -25,7 +25,6 @@ def on_open(ws):
 
 
 if __name__ == "__main__":
-
     # retrieve api endpoint, access key and secret from environmental variables.
     api_endpoint = os.getenv('CATTLE_URL').replace('http:', 'ws:').replace('https:', 'wss:')
     access_key = os.getenv('CATTLE_ACCESS_KEY')
