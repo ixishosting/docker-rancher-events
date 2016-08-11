@@ -11,4 +11,4 @@ WORKDIR /srv/rancher-events
 RUN pip install -r /srv/rancher-events/requirements.txt
 
 
-CMD ["/usr/local/bin/python /srv/rancher-events/listener.py"]
+CMD ["/usr/local/bin/python", "/srv/rancher-events/listener.py"]
