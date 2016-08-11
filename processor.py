@@ -44,7 +44,6 @@ class Processor:
             r.raise_for_status()
             service_stack_response = r.json()
 
-
             # list of running stacks, called environments in api
             r = requests.get(self.api_endpoint + '/environments',
                              auth=(self.access_key, self.secret_key),
@@ -79,16 +78,16 @@ class Processor:
                     domain = service['launchConfig'].get('labels', {}).get('lb.domain', 'drophosting.co.uk')
                     log.info(' -- -- Using domain {0}'.format(domain))
 
+                    http_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
+                    https_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
+
+                    combined_row = [http_row, https_row]
+
                     # http
                     loadbalancer_entries.append({
                         "serviceId": service['id'],
-                        "ports": [
-                            stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
-                        ]
+                        "ports": combined_row
                     })
-
-
-
 
             if loadbalancer_service is None:
                 raise Exception(

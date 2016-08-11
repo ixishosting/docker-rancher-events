@@ -1,10 +1,19 @@
 import websocket
 import base64
 import os
+import sys
 from processor import Processor
 import logging
 
 log = logging.getLogger("listener")
+
+log.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+log.addHandler(ch)
 
 
 def on_message(ws, message):
