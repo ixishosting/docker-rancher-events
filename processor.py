@@ -85,7 +85,7 @@ class Processor:
                     log.info(' -- -- Using domain {0}'.format(domain))
                     
                     # If any of these vars are missing, just use the stack name + domain
-                    if None in (branch, repo, org):
+                    if not all((repo, branch, org)):
                         http_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
                         https_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
                     else:
