@@ -75,11 +75,17 @@ class Processor:
                     log.info(' -- -- Adding {0} to lb '.format(stack_name))
                     port = service['launchConfig'].get('labels', {}).get('lb.port', '80')
                     log.info(' -- -- Using port {0}'.format(port))
+                    branch = service['launchConfig'].get('labels', {}).get('lb.branch', '')
+                    log.info(' -- -- Using branch {0}'.format(branch))
+                    repo = service['launchConfig'].get('labels', {}).get('lb.repo', '')
+                    log.info(' -- -- Using repo {0}'.format(repo))
+                    org = service['launchConfig'].get('labels', {}).get('lb.org', '')
+                    log.info(' -- -- Using org {0}'.format(org))
                     domain = service['launchConfig'].get('labels', {}).get('lb.domain', 'drophosting.co.uk')
                     log.info(' -- -- Using domain {0}'.format(domain))
 
-                    http_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
-                    https_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
+                    http_row =  branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
+                    https_row = branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
 
                     combined_row = [http_row, https_row]
 
@@ -91,7 +97,7 @@ class Processor:
 
             if loadbalancer_service is None:
                 raise Exception(
-                    'Could not find the load-balancer stack external load balancer. This should never happen')
+                    'Could not find the load-balancer stack.')
 
             log.info(' -- Setting loadbalancer entries:')
             log.info(loadbalancer_entries)
@@ -105,7 +111,6 @@ class Processor:
         certs = []
 
         # get list of all available cert ids
-        # FUCKING DEBUGGER SHITFACE
         r = requests.get(self.api_endpoint + '/certificate',
                          auth=(self.access_key, self.secret_key),
                          headers={'Accept': 'application/json', 'Content-Type': 'application/json'}
@@ -125,7 +130,6 @@ class Processor:
         return certs
 
     def set_loadbalancer_certs(self, loadbalancer_service, certs):
-        # certs = ['1c10']
         r = requests.put(loadbalancer_service['links']['self'],
                          auth=(self.access_key, self.secret_key),
                          headers={'Accept': 'application/json', 'Content-Type': 'application/json'},
