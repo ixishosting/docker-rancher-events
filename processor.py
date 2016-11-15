@@ -83,21 +83,29 @@ class Processor:
                     log.info(' -- -- Using org {0}'.format(org))
                     domain = service['launchConfig'].get('labels', {}).get('lb.domain', 'drophosting.co.uk')
                     log.info(' -- -- Using domain {0}'.format(domain))
-                    
+                    aliases = service['launchConfig'].get('labels', {}).get('lb.aliases', '')
+                    log.info(' -- -- Using aliases {0}'.format(aliases))
+
+                    rows = []
+
                     # If any of these vars are missing, just use the stack name + domain
                     if not all((repo, branch, org)):
-                        http_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
-                        https_row = stack_name + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
+                        rows.append(stack_name + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port)
+                        rows.append(stack_name + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port)
                     else:
-                        http_row =  branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port
-                        https_row = branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port
+                        rows.append(branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_http_port + '=' + port)
+                        rows.append(branch + '.' + repo + '.' + org + '.' + domain + ':' + self.external_loadbalancer_https_port + '=' + port)
 
-                    combined_row = [http_row, https_row]
+                    if aliases:
+                        log.info(' -- -- Processing aliases')
+                        alias_list = aliases.replace(' ','').split(',')
+                        for alias in alias_list:
+                            rows.append(alias + ':' + self.external_loadbalancer_http_port + '=' + port)
 
                     # http
                     loadbalancer_entries.append({
                         "serviceId": service['id'],
-                        "ports": combined_row
+                        "ports": rows
                     })
 
             if loadbalancer_service is None:
